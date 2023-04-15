@@ -121,8 +121,52 @@ nlu:
   examples: |
     - PR items
     - pr items
+    - give me PR items
+    - give me pr items
+    - give me Purchase Requisition items
+    - give me purchase requisition items
+    - Purchase Requisition items
+    - purchase requisition items
+    - list of PR items
+    - list of pr items
+    - list me Purchase Requisition items
+    - list me purchase requisition items
+    - Can you please provide me with my purchase requisition items?
+    - May I have access to my purchase requisition items records?
+    - Is there a way for me to view my purchase requisition items?
+    - How do I access my purchase requisition items?
 
 - intent: pritemdesc
   examples: |
-    - PR item Desc
-    - Pr item Desc
+    - PR items desc
+    - pr items desc
+    - give me PR items desc
+    - give me pr items desc
+    - give me Purchase Requisition items desc
+    - give me purchase requisition items desc
+    - Purchase Requisition items desc
+    - purchase requisition items desc
+    - list of PR items desc
+    - list of pr items desc
+    - list me Purchase Requisition items desc
+    - list me purchase requisition items desc
+    - Can you please provide me with my purchase requisition items desc?
+    - May I have access to my purchase requisition items records desc?
+    - Is there a way for me to view my purchase requisition items desc?
+    - How do I access my purchase requisition items desc?
+    - PR items description
+    - pr items description
+    - give me PR items description
+    - give me pr items description
+    - give me Purchase Requisition items description
+    - give me purchase requisition items description
+    - Purchase Requisition items description
+    - purchase requisition items description
+    - list of PR items description
+    - list of pr items description
+    - list me Purchase Requisition items description
+    - list me purchase requisition items description
+    - Can you please provide me with my purchase requisition items description?
+    - May I have access to my purchase requisition items records description?
+    - Is there a way for me to view my purchase requisition items description?
+    - How do I access my purchase requisition items description?
