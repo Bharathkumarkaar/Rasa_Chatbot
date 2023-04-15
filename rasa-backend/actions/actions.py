@@ -124,11 +124,54 @@ class ActionPRitemDesc(Action):
                 PRDeliveryDate = pritemdesc[i]
             elif i == 'Creation_Date':
                 PRCreationDate = pritemdesc[i]
+
+        if(PRItemStatus=='01'):
+            status = 'Saved, not yet released'
+        elif(PRItemStatus=='02'):
+            status = 'Released'
+        elif(PRItemStatus=='03'):
+            status = 'Partially ordered'
+        elif(PRItemStatus=='04'):
+            status = 'Completely ordered'
+        elif(PRItemStatus=='05'):
+            status = 'Deleted'
+        elif(PRItemStatus=='06'):
+            status = 'Manually set to Closed'
+        elif(PRItemStatus=='07'):
+            status = 'Technically completed'
+        elif(PRItemStatus=='08'):
+            status = 'Manually set to Locked'
+        elif(PRItemStatus=='09'):
+            status = 'Sent'
+        elif(PRItemStatus=='10'):
+            status = 'Partially invoiced'
+        elif(PRItemStatus=='11'):
+            status = 'Completely invoiced'
+        elif(PRItemStatus=='12'):
+            status = 'Manually set to Archived'
+
+        if(PRProcessingStatus=='N'):
+            Pstatus = 'Not edited'
+        elif(PRProcessingStatus=='B'):
+            Pstatus = 'PO created'
+        elif(PRProcessingStatus=='A'):
+            Pstatus = 'RFQ created'
+        elif(PRProcessingStatus=='K'):
+            Pstatus = 'Contract created'
+        elif(PRProcessingStatus=='L'):
+            Pstatus = 'Scheduling aggrement created'
+        elif(PRProcessingStatus=='S'):
+            Pstatus = 'Service entry sheet created'
+        elif(PRProcessingStatus=='D'):
+            Pstatus = 'Deployment STR'
+        elif(PRProcessingStatus=='E'):
+            Pstatus = 'RFQ sent to external system for sourcing'
+
         new_line = '\n'
         message = f"""Here is the Details of Purchase Requisition... {new_line}
         Purchase Requisition Number : {PRnumber} {new_line}
         Purchase Requisition Item Number : {PRItemNumber} {new_line}
-        Purchase_Requisition_Release_Status : {PRItemStatus} {new_line}
+        Purchase_Requisition_Release_Status : {PRItemStatus} - {status} {new_line}
         Purchase Requisition Item Text : {PRItemText} {new_line}
         Purchase_Requisition_Material_Group : {PRMaterialGroup} {new_line}
         Requested_Quantity : {PRQuantity} {new_line}
@@ -136,7 +179,7 @@ class ActionPRitemDesc(Action):
         Purchase_Requisition_Price : {PRPrice} {new_line}
         Plant : {PRPlant} {new_line}
         Company_Code : {PRCompanyCode} {new_line}
-        Processing_Status : {PRProcessingStatus} {new_line}
+        Processing_Status : {PRProcessingStatus} - {Pstatus} {new_line}
         Creation_Date : {PRCreationDate} {new_line}
         Delivery_Date : {PRDeliveryDate}"""
         dispatcher.utter_message(text=message)
