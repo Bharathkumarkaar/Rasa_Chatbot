@@ -26,12 +26,13 @@
 #
 #         return []
 
-import datetime as dt 
+import datetime as dt
 from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-from actions.api import prlist,pritems,pritemdetails
+from actions.api import prlist, pritems, pritemdetails
+
 
 class ActionHelloWorld(Action):
 
@@ -45,7 +46,8 @@ class ActionHelloWorld(Action):
         dispatcher.utter_message(text=f"{dt.datetime.now()}")
 
         return []
-    
+
+
 class ActionPRList(Action):
 
     def name(self) -> Text:
@@ -63,6 +65,7 @@ class ActionPRList(Action):
 
         return []
 
+
 class ActionPRitems(Action):
 
     def name(self) -> Text:
@@ -72,7 +75,7 @@ class ActionPRitems(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         # prno=tracker.latest_message['text']
-        prno='10000640'
+        prno = '10000640'
         pritemslist = pritems(prno)
         pritemslist = pritemslist[:10]
         # dispatcher.utter_template("utter_givepr",tracker,temp=prlists)
@@ -80,7 +83,8 @@ class ActionPRitems(Action):
         dispatcher.utter_message(text=message)
 
         return []
-    
+
+
 class ActionPRitemDesc(Action):
 
     def name(self) -> Text:
@@ -90,32 +94,51 @@ class ActionPRitemDesc(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         # prno=tracker.latest_message['text']
-        prno='10000640'
-        pritemno='220'
-        pritemdesc = pritemdetails(prno,pritemno)
+        prno = '10000640'
+        pritemno = '220'
+        pritemdesc = pritemdetails(prno, pritemno)
         for i in pritemdesc.keys():
-            if i=='Requisitioner_Name':
-                Name = pritemdesc[i]
-            elif i=='Purchase_Requisition_Number':
+            if i == 'Purchase_Requisition_Number':
                 PRnumber = pritemdesc[i]
-            elif i=='Purchase_Requisition_Item_Number':
+            elif i == 'Purchase_Requisition_Item_Number':
                 PRItemNumber = pritemdesc[i]
-            elif i=='Purchase_Requisition_Material':
-                Material = pritemdesc[i]
-            elif i=='Purchase_Requisition_Item_Text':
+            elif i == 'Purchase_Requisition_Release_Status':
+                PRItemStatus = pritemdesc[i]
+            elif i == 'Purchase_Requisition_Item_Text':
                 PRItemText = pritemdesc[i]
-            elif i=='Purchase_Requisition_Release_Date':
-                PRReleaseDate = pritemdesc[i]
-        # dispatcher.utter_template("utter_givepr",tracker,temp=prlists)
-        new_line='\n'
-        message = f"""Here are the Details of Purchase Requisition... {new_line} 
-        Requisitioner Name : {Name} {new_line}
+            elif i == 'Purchase_Requisition_Material_Group':
+                PRMaterialGroup = pritemdesc[i]
+            elif i == 'Requested_Quantity':
+                PRQuantity = pritemdesc[i]
+            elif i == 'Base_Unit':
+                PRBaseUnit = pritemdesc[i]
+            elif i == 'Purchase_Requisition_Price':
+                PRPrice = pritemdesc[i]
+            elif i == 'Plant':
+                PRPlant = pritemdesc[i]
+            elif i == 'Company_Code':
+                PRCompanyCode = pritemdesc[i]
+            elif i=='Processing_Status':
+                PRProcessingStatus = pritemdesc[i]
+            elif i == 'Delivery_Date':
+                PRDeliveryDate = pritemdesc[i]
+            elif i == 'Creation_Date':
+                PRCreationDate = pritemdesc[i]
+        new_line = '\n'
+        message = f"""Here is the Details of Purchase Requisition... {new_line}
         Purchase Requisition Number : {PRnumber} {new_line}
         Purchase Requisition Item Number : {PRItemNumber} {new_line}
-        Purchase Requisition Material : {Material} {new_line}
+        Purchase_Requisition_Release_Status : {PRItemStatus} {new_line}
         Purchase Requisition Item Text : {PRItemText} {new_line}
-        Purchase_Requisition_Release_Date : {PRReleaseDate}"""
+        Purchase_Requisition_Material_Group : {PRMaterialGroup} {new_line}
+        Requested_Quantity : {PRQuantity} {new_line}
+        Base_Unit : {PRBaseUnit} {new_line}
+        Purchase_Requisition_Price : {PRPrice} {new_line}
+        Plant : {PRPlant} {new_line}
+        Company_Code : {PRCompanyCode} {new_line}
+        Processing_Status : {PRProcessingStatus} {new_line}
+        Creation_Date : {PRCreationDate} {new_line}
+        Delivery_Date : {PRDeliveryDate}"""
         dispatcher.utter_message(text=message)
 
         return []
-
