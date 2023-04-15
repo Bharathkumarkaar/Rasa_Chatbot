@@ -29,10 +29,10 @@ stories:
   - intent: deny
   - action: utter_goodbye
 
-- story: prrequest
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: prrequest
-  - action: action_pr_list
+# - story: prrequest
+#   steps:
+#   - intent: greet
+#   - action: utter_greet
+#   - intent: prrequest
+#   - action: action_pr_list
   

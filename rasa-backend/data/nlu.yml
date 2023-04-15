@@ -121,3 +121,8 @@ nlu:
   examples: |
     - PR items
     - pr items
+
+- intent: pritemdesc
+  examples: |
+    - PR item Desc
+    - Pr item Desc

@@ -10,14 +10,17 @@ intents:
   - bot_challenge
   - prrequest
   - pritems
+  - pritemdesc
   - give_time
 
 actions:
   - action_show_time
   - action_pr_list
   - action_pr_items
+  - action_pr_item_desc
 
 responses:
+
   utter_greet:
   - text: "Hey! How are you?"
   - text: "hello, how you doing?"

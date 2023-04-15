@@ -22,6 +22,11 @@ rules:
   - intent: pritems
   - action: action_pr_items
 
+- rule: Give list of PR item description when user asks for it
+  steps:
+  - intent: pritemdesc
+  - action: action_pr_item_desc
+
 - rule: Give the time when uses asks for it
   steps:
   - intent: give_time
