@@ -58,9 +58,8 @@ class ActionPRList(Action):
         prlists = prlist()
         prlists = prlists[:10]
         # dispatcher.utter_template("utter_givepr",tracker,temp=prlists)
-        message = f"The list of PR's are: {prlists}"
+        message = f"The list of PR's are: {prlists}, Choose a PR Number to display its items"
         dispatcher.utter_message(text=message)
-        dispatcher.utter_message("Choose a PR Number to display its items")
 
         return []
 
