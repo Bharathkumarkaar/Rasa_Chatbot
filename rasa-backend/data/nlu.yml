@@ -116,3 +116,8 @@ nlu:
     - May I have access to my purchase requisition records?
     - Is there a way for me to view my purchase requisition?
     - How do I access my purchase requisition?
+
+- intent: pritems
+  examples: |
+    - PR items
+    - pr items

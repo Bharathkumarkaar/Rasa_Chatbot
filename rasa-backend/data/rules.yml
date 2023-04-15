@@ -17,7 +17,13 @@ rules:
   - intent: prrequest
   - action: action_pr_list
 
+- rule: Give list of PR items when user asks for it
+  steps:
+  - intent: pritems
+  - action: action_pr_items
+
 - rule: Give the time when uses asks for it
   steps:
   - intent: give_time
   - action: action_show_time
+

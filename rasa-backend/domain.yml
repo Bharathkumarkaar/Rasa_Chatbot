@@ -9,11 +9,13 @@ intents:
   - mood_unhappy
   - bot_challenge
   - prrequest
+  - pritems
   - give_time
 
 actions:
   - action_show_time
   - action_pr_list
+  - action_pr_items
 
 responses:
   utter_greet:
