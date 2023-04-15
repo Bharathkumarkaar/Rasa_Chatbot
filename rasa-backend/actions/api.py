@@ -47,6 +47,7 @@ def pritems(prno):
     return itemlist
 
 def pritemdetails(prno,pritemno):
+    print(prno,pritemno)
     api_address=f'http://172.26.0.121:8002/sap/opu/odata/sap/API_PURCHASEREQ_PROCESS_SRV/A_PurchaseRequisitionItem(PurchaseRequisition=\'{prno}\',PurchaseRequisitionItem=\'{pritemno}\')'
     url = api_address
     response = session.get(url)

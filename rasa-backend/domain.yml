@@ -9,6 +9,7 @@ intents:
   - mood_unhappy
   - bot_challenge
   - prrequest
+  - prrequestno
   - pritems
   - pritemdesc
   - give_time
@@ -18,6 +19,34 @@ actions:
   - action_pr_list
   - action_pr_items
   - action_pr_item_desc
+
+entities:
+  - pr_number:
+      type: regex
+      pattern: "[0-9]{8}"
+  - pr_itemnumber:
+      type: regex
+      pattern: "^[0-9]{3,6}$"
+slots:
+  prnumber:
+    type: float
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: pr_number
+
+  other_slot:
+    type: float
+    mappings:
+    - type: from_entity
+      entity: pr_number
+  
+  pritemnumber:
+    type: float
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: pr_itemnumber
 
 responses:
 

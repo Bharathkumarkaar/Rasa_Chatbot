@@ -31,8 +31,18 @@ from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.events import SlotSet
 from actions.api import prlist, pritems, pritemdetails
 
+prno = ''
+pritemno = ''
+
+def clear_global_variable(): 
+    global prno 
+    prno = None 
+    global pritemno
+    pritemno = None
+    
 
 class ActionHelloWorld(Action):
 
@@ -56,12 +66,29 @@ class ActionPRList(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
         prlists = prlist()
         prlists = prlists[:10]
         # dispatcher.utter_template("utter_givepr",tracker,temp=prlists)
         message = f"The list of PR's are: {prlists}. Choose a PR Number to display its items"
         dispatcher.utter_message(text=message)
+        # dispatcher.utter_message(text=f"Your pr number is {pr_num}!")
+
+        return []
+    
+class ActionPRNumber(Action):
+
+    def name(self) -> Text:
+        return "action_pr_number"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        prlists = prlist()
+        prlists = prlists[:10]
+        # dispatcher.utter_template("utter_givepr",tracker,temp=prlists)
+        message = f"The list of PR's are: {prlists}. Choose a PR Number to display its items"
+        dispatcher.utter_message(text=message)
+        # dispatcher.utter_message(text=f"Your pr number is {pr_num}!")
 
         return []
 
@@ -74,15 +101,17 @@ class ActionPRitems(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        # prno=tracker.latest_message['text']
-        prno = '10000640'
+        global prno
+        prno=tracker.get_slot("prnumber")
+        # prno = prnotext
+        # prno = tracker.get_slot("prnumber")
         pritemslist = pritems(prno)
         pritemslist = pritemslist[:10]
         # dispatcher.utter_template("utter_givepr",tracker,temp=prlists)
-        message = f"The list of PR's items are: {pritemslist}"
+        message = f"The list of PR's items are: {pritemslist}. Choose Any one to see the description.."
         dispatcher.utter_message(text=message)
 
-        return []
+        return [SlotSet('other_slot', prno)]
 
 
 class ActionPRitemDesc(Action):
@@ -94,9 +123,16 @@ class ActionPRitemDesc(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         # prno=tracker.latest_message['text']
-        prno = '10000640'
-        pritemno = '220'
+        # prno = '10000640'
+        # pritemno = '220'
+        # prno = tracker.get_slot('other_slot')
+        global pritemno,prno
+        pritemnotext = tracker.latest_message['text']
+        pritemno = pritemnotext.split()[-1]
+        print(prno)
+        print(pritemno)
         pritemdesc = pritemdetails(prno, pritemno)
+        print(pritemdesc)
         for i in pritemdesc.keys():
             if i == 'Purchase_Requisition_Number':
                 PRnumber = pritemdesc[i]
@@ -183,5 +219,5 @@ class ActionPRitemDesc(Action):
         Creation_Date : {PRCreationDate} {new_line}
         Delivery_Date : {PRDeliveryDate}"""
         dispatcher.utter_message(text=message)
-
+        clear_global_variable()
         return []

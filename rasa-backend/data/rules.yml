@@ -17,15 +17,20 @@ rules:
   - intent: prrequest
   - action: action_pr_list
 
+- rule: Give list of PR items when user gives prnumber
+  steps:
+  - intent: prrequestno
+  - action: action_pr_items
+
 - rule: Give list of PR items when user asks for it
   steps:
   - intent: pritems
-  - action: action_pr_items
-
-- rule: Give list of PR item description when user asks for it
-  steps:
-  - intent: pritemdesc
   - action: action_pr_item_desc
+
+# - rule: Give list of PR item description when user asks for it
+#   steps:
+#   - intent: pritemdesc
+#   - action: action_pr_item_desc
 
 - rule: Give the time when uses asks for it
   steps:

@@ -104,7 +104,7 @@ nlu:
     - pr
     - give me PR
     - give me pr
-    - give me Purchase Requisition
+    - give me Purchase Requisition 
     - give me purchase requisition
     - Purchase Requisition
     - purchase requisition
@@ -116,11 +116,22 @@ nlu:
     - May I have access to my purchase requisition records?
     - Is there a way for me to view my purchase requisition?
     - How do I access my purchase requisition?
+  
+- intent: prrequestno
+  examples: |
+    - PR [10009092](pr_number)
+    - pr [10009092](pr_number)
+    - give me PR [10009092](pr_number)
+    - give me pr [10009092](pr_number)
+    - give me Purchase Requisition [10009092](pr_number)
+    - give me purchase requisition [10009092](pr_number)
+    - Purchase Requisition [10009092](pr_number)
+    - purchase requisition [10009092](pr_number)
 
 - intent: pritems
   examples: |
-    - PR items
-    - pr items
+    - PR item is [1098](pr_itemnumber)
+    - pr item is [220](pr_itemnumber)
     - give me PR items
     - give me pr items
     - give me Purchase Requisition items
