@@ -60,6 +60,7 @@ class ActionPRList(Action):
         # dispatcher.utter_template("utter_givepr",tracker,temp=prlists)
         message = f"The list of PR's are: {prlists}"
         dispatcher.utter_message(text=message)
+        dispatcher.utter_message("Choose a PR Number to display its items")
 
         return []
 
