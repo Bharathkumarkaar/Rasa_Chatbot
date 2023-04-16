@@ -138,7 +138,9 @@
   width: 45%;
 }
 .chatscreen-header-menu > img {
-  width: 45%;
+  width: 150%;
+    margin-right: -35%;
+    margin-bottom: 5%;
 }
 
 .chatscreen-content {
@@ -190,7 +192,8 @@
 }
 
 .chartscreen-content-text img {
-  width: 100%;
+  width: 150%;
+  transform: translateY(-4px);
 }
 .chatscreen-content-icon {
   width: 7%;
@@ -202,6 +205,19 @@
   padding: 7px;
   padding-top: 0px;
 }
+
+/* .chatscreen-content-icon-user img{
+width: 10%;
+transform: translateY(0px);
+display: flex;
+  /* align-items: center; */
+  /* justify-content: center; */
+  /* background: lightgray; */
+  /* padding: 9px 10px; */
+  /* padding: 7px;
+  padding-top: 0px;
+  margin-left: 50%; 
+} */
 
 .chatscreen-content-msg {
   font-size: 10px;
@@ -347,6 +363,7 @@ a:before {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  width: 100%;
 }
 
 .chatscreen-content-details span {
@@ -357,6 +374,21 @@ a:before {
 
 .chatscreen-content-details span:first-child {
   color: #2a3eb1;
+  width: 45%;
+  overflow-wrap: break-word;
+  text-align: left;
+}
+
+.chatscreen-content-details span:nth-child(2) {
+  width: 10%;
+  text-align: left;
+  font-size: 20px;
+}
+
+.chatscreen-content-details span:last-child {
+  width: 45%;
+  overflow-wrap: break-word;
+  text-align: left;
 }
 
 @keyframes blink {
@@ -388,3 +420,4 @@ a:before {
     width: 1.5%;
   }
 }
+

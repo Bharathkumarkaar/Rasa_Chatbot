@@ -95,7 +95,7 @@ class ActionPRList(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         prlists = prlist()
-        prlists = prlists[:10]
+        prlists = prlists[:50]
         # dispatcher.utter_template("utter_givepr",tracker,temp=prlists)
         # message = f"The list of PR's are: {prlists}. Choose a PR Number to display its items"
         send = {"pr":prlists,"msg":"The PR lists are given below. Choose Any one to see PR Items"}
@@ -137,7 +137,7 @@ class ActionPRitems(Action):
         # prno = prnotext
         # prno = tracker.get_slot("prnumber")
         pritemslist = pritems(prno)
-        pritemslist = pritemslist[:10]
+        pritemslist = pritemslist[:50]
         # dispatcher.utter_template("utter_givepr",tracker,temp=prlists)
         # message = f"The list of PR's items are: {pritemslist}. Choose Any one to see the description.."
         # dispatcher.utter_message(text=message)

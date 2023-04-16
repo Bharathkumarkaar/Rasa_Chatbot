@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./ChatScreen.css";
 import DigiverzLogo from "./Digiverz-logo.png";
-import DigiverzMenu from "./menu.png";
+import DigiverzMenu from "./menu.gif";
 import ExternalLink from "./external-link.svg";
 import UserIcon from "./user.png";
 import ChatBotIcon from "./chatbot.png";
@@ -17,6 +17,11 @@ const Home = () => {
   const [inputMessage, setInputMessage] = useState("");
   const [botTyping, setBotTyping] = useState(false);
   const [userTyping, setUserTyping] = useState(false);
+  const [chatIDCounter, setChatIDCounter] = useState(1);
+  const [viewMoreState, setViewMoreState] = useState({
+    id: 0,
+    count: 10,
+  });
   const chatScreenContent = useRef();
 
   useEffect(() => {
@@ -34,12 +39,14 @@ const Home = () => {
       sender: "user",
       sender_id: name,
       msg: inputMessage,
+      chat_id: chatIDCounter,
       actions: [],
       links: [],
       details: {},
     };
 
     setChat((chat) => [...chat, request_temp]);
+    setChatIDCounter(chatIDCounter + 1);
     setBotTyping(true);
     setInputMessage("");
     rasaAPI(name, inputMessage);
@@ -51,6 +58,7 @@ const Home = () => {
     const request_temp = {
       sender: "user",
       sender_id: name,
+      chat_id: chatIDCounter,
       msg: actionValue,
       actions: [],
       links: [],
@@ -58,6 +66,7 @@ const Home = () => {
     };
 
     setChat((chat) => [...chat, request_temp]);
+    setChatIDCounter(chatIDCounter + 1);
     setBotTyping(true);
     rasaAPI(name, actionValue);
   };
@@ -78,22 +87,35 @@ const Home = () => {
         if (response) {
           const temp = response[0];
           const recipient_id = temp["recipient_id"];
-          const recipient_msg = JSON.parse(temp["text"]);
-
-          console.log(recipient_msg);
-
-          const response_temp = {
-            sender: "bot",
-            recipient_id: recipient_id,
-            msg: recipient_msg["msg"],
-            actions: recipient_msg["pr"] ? recipient_msg["pr"] : [],
-            links: recipient_msg["links"] ? recipient_msg["links"] : [],
-            details: recipient_msg["details"] ? recipient_msg["details"] : {},
-          };
+          let recipient_msg;
+          let response_temp;
+          try {
+            recipient_msg = JSON.parse(temp["text"]);
+            response_temp = {
+              sender: "bot",
+              recipient_id: recipient_id,
+              msg: recipient_msg["msg"],
+              actions: recipient_msg["pr"] ? recipient_msg["pr"] : [],
+              links: recipient_msg["links"] ? recipient_msg["links"] : [],
+              details: recipient_msg["details"] ? recipient_msg["details"] : {},
+            };
+          } catch {
+            recipient_msg = temp["text"];
+            response_temp = {
+              sender: "bot",
+              recipient_id: recipient_id,
+              msg: recipient_msg,
+              chat_id: chatIDCounter,
+              actions: [],
+              links: [],
+              details: {},
+            };
+          }
           setBotTyping(false);
           setUserTyping(false);
           console.log(chat);
           setChat((chat) => [...chat, response_temp]);
+          setChatIDCounter(chatIDCounter + 1);
           // scrollBottom();
         }
       });
@@ -172,10 +194,35 @@ const Home = () => {
                         chatContent.sender == "bot" ? "flex-start" : "flex-end",
                     }}
                   >
-                    {chatContent.actions.map((action, actionIndex) => (
+                    {chatContent.actions
+                      .slice(
+                        0,
+                        chatContent.chat_id == viewMoreState.id
+                          ? viewMoreState.count
+                          : 10
+                      )
+                      .map((action, actionIndex) => (
+                        <Button
+                          variant="outlined"
+                          key={actionIndex}
+                          size="small"
+                          style={{
+                            margin: "5px 10px 5px 0px",
+                            textTransform: "capitalize",
+                            letterSpacing: "0.4px",
+                            fontSize: "10px",
+                            fontWeight: "550",
+                          }}
+                          onClick={(e) => {
+                            handleButtonRequest(action);
+                          }}
+                        >
+                          {action}
+                        </Button>
+                      ))}
+                    {chatContent.actions.length > 0 ? (
                       <Button
                         variant="outlined"
-                        key={actionIndex}
                         size="small"
                         style={{
                           margin: "5px 10px 5px 0px",
@@ -185,12 +232,22 @@ const Home = () => {
                           fontWeight: "550",
                         }}
                         onClick={(e) => {
-                          handleButtonRequest(action);
+                          chatContent.chat_id == viewMoreState.id
+                            ? setViewMoreState({
+                                ...viewMoreState,
+                                count: viewMoreState.count + 10,
+                              })
+                            : setViewMoreState({
+                                id: chatContent.chat_id,
+                                count: 20,
+                              });
                         }}
                       >
-                        {action}
+                        View More
                       </Button>
-                    ))}
+                    ) : (
+                      <></>
+                    )}
                   </div>
                 ) : (
                   <></>
