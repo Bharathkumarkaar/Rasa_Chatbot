@@ -11,7 +11,7 @@ intents:
   - prrequest
   - prrequestno
   - pritems
-  - pritemdesc
+  # - pritemdesc
   - give_time
 
 actions:

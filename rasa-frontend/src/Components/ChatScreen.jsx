@@ -1,28 +1,87 @@
-import { React, useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./ChatScreen.css";
 import DigiverzLogo from "./Digiverz-logo.png";
 import DigiverzMenu from "./menu.png";
+import ExternalLink from "./external-link.svg";
 import UserIcon from "./user.png";
 import ChatBotIcon from "./chatbot.png";
 import SendIcon from "@mui/icons-material/Send";
+import LaunchIcon from "@mui/icons-material/Launch";
 import { IoMdSend } from "react-icons/io";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import { BiBot, BiUser } from "react-icons/bi";
 
 const Home = () => {
   const [chat, setChat] = useState([
-    // { sender: "user", sender_id: "Eyuwankg", msg: "Hi" },
-    // { sender: "bot", sender_id: "", msg: "How Are Your???" },
-    // { sender: "user", sender_id: "Eyuwankg", msg: "Im Fine! Bro" },
-    // { sender: "bot", sender_id: "Eyuwankg", msg: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum" },
+    {
+      sender: "user",
+      sender_id: "Eyuwankg",
+      msg: "Hi",
+      actions: [],
+      links: [],
+    },
+    {
+      sender: "bot",
+      sender_id: "",
+      msg: "How Are Your???",
+      actions: ["Pending Request", "100000243", "Pending Request"],
+      links: [
+        {
+          link: "https://chat.openai.com/",
+          tag: "Chat GPT",
+        },
+        {
+          link: "https://www.flaticon.com/",
+          tag: "Flat Icons",
+        },
+        {
+          link: "https://chat.openai.com/",
+          tag: "Chat GPT",
+        },
+        {
+          link: "https://www.flaticon.com/",
+          tag: "Flat Icons",
+        },
+      ],
+    },
     // {
     //   sender: "user",
     //   sender_id: "Eyuwankg",
     //   msg: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
+    //   actions: [],
+    //   links: [
+    //   ],
+    // },
+    // {
+    //   sender: "bot",
+    //   sender_id: "Eyuwankg",
+    //   msg: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    //   actions: ["Pending Request", "100000243"],
+    //   links: [
+    //     {
+    //       link: "https://chat.openai.com/",
+    //       tag: "Chat GPT",
+    //     },
+    //     {
+    //       link: "https://www.flaticon.com/",
+    //       tag: "Flat Icons",
+    //     },
+    //   ],
+    // },
+    // {
+    //   sender: "user",
+    //   sender_id: "Eyuwankg",
+    //   msg: "Im Fine! Bro",
+    //   actions: [],
+    //   links: [
+    //   ],
     // },
   ]);
   const [inputMessage, setInputMessage] = useState("");
   const [botTyping, setBotTyping] = useState(false);
+  const [userTyping, setUserTyping] = useState(false);
+  const chatScreenContent = useRef();
 
   const stylecard = {
     maxWidth: "35rem",
@@ -45,17 +104,45 @@ const Home = () => {
     overflowX: "hidden",
   };
 
+  useEffect(() => {
+    console.log(chatScreenContent.current);
+    chatScreenContent.current.scrollTop =
+      chatScreenContent.current.scrollHeight;
+  }, [chat]);
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
     if (inputMessage == "") return;
 
     const name = "shreyas";
-    const request_temp = { sender: "user", sender_id: name, msg: inputMessage };
+    const request_temp = {
+      sender: "user",
+      sender_id: name,
+      msg: inputMessage,
+      actions: [],
+      links: [],
+    };
 
     setChat((chat) => [...chat, request_temp]);
     setBotTyping(true);
     setInputMessage("");
     rasaAPI(name, inputMessage);
+  };
+  const handleButtonRequest = (actionValue) => {
+    setUserTyping(false);
+
+    const name = "shreyas";
+    const request_temp = {
+      sender: "user",
+      sender_id: name,
+      msg: actionValue,
+      actions: [],
+      links: [],
+    };
+
+    setChat((chat) => [...chat, request_temp]);
+    setBotTyping(true);
+    rasaAPI(name, actionValue);
   };
 
   const rasaAPI = async function handleClick(name, msg) {
@@ -82,8 +169,11 @@ const Home = () => {
             sender: "bot",
             recipient_id: recipient_id,
             msg: recipient_msg,
+            actions: [],
+            links: [],
           };
           setBotTyping(false);
+          setUserTyping(false);
           console.log(chat);
           setChat((chat) => [...chat, response_temp]);
           // scrollBottom();
@@ -158,34 +248,82 @@ const Home = () => {
           <img src={DigiverzMenu} alt="Logo" />
         </div>
       </div>
-      <div className="chatscreen-content">
-        {chat.map((text, index) => {
-          console.log(text);
+      <div className="chatscreen-content" ref={chatScreenContent}>
+        {chat.map((chatContent, index) => {
+          console.log(chatContent);
           return (
             <div
+              key={index}
               style={{
                 justifyContent:
-                  text.sender == "bot" ? "flex-start" : "flex-end",
+                  chatContent.sender == "bot" ? "flex-start" : "flex-end",
               }}
               className="chartscreen-content-text"
             >
-              {text.sender == "bot" ? (
+              {chatContent.sender == "bot" ? (
                 <span className="chatscreen-content-icon">
                   <img src={ChatBotIcon} />
                 </span>
               ) : (
                 <></>
               )}
-              <span
-                className="chatscreen-content-msg"
+
+              <div
+                className="chatscreen-content-chat"
                 style={{
-                  borderTopLeftRadius: text.sender == "bot" ? "0px" : "",
-                  borderTopRightRadius: text.sender == "user" ? "0px" : "",
+                  alignItems:
+                    chatContent.sender == "bot" ? "flex-start" : "flex-end",
                 }}
               >
-                {text.msg}
-              </span>
-              {text.sender == "user" ? (
+                <span
+                  className="chatscreen-content-msg"
+                  style={{
+                    borderTopLeftRadius:
+                      chatContent.sender == "bot" ? "0px" : "",
+                    borderTopRightRadius:
+                      chatContent.sender == "user" ? "0px" : "",
+                  }}
+                >
+                  {chatContent.msg}
+                </span>
+                <div className="chatscreen-content-links">
+                  {chatContent.links.map((link, linkIndex) => (
+                    <a href={link.link} target="_blank">
+                      {link.tag}
+                      <img src={ExternalLink} />
+                      {/* <LaunchIcon/> */}
+                    </a>
+                  ))}
+                </div>
+                <div
+                  className="chatscreen-content-actions"
+                  style={{
+                    justifyContent:
+                      chatContent.sender == "bot" ? "flex-start" : "flex-end",
+                  }}
+                >
+                  {chatContent.actions.map((action, actionIndex) => (
+                    <Button
+                      variant="outlined"
+                      key={actionIndex}
+                      size="small"
+                      style={{
+                        margin: "5px 10px 5px 0px",
+                        textTransform: "capitalize",
+                        letterSpacing: "0.4px",
+                        fontSize: "10px",
+                        fontWeight: "550",
+                      }}
+                      onClick={(e) => {
+                        handleButtonRequest(action);
+                      }}
+                    >
+                      {action}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+              {chatContent.sender == "user" ? (
                 <span className="chatscreen-content-icon">
                   <img src={UserIcon} />
                 </span>
@@ -195,6 +333,33 @@ const Home = () => {
             </div>
           );
         })}
+      </div>
+      <div
+        className="chatscreen-typing-container"
+        style={{
+          justifyContent: botTyping ? "flex-start" : "flex-end",
+          opacity: userTyping || botTyping ? "1" : "0",
+        }}
+      >
+        {botTyping ? (
+          <span className="chatscreen-typing-icon">
+            <img src={ChatBotIcon} />
+          </span>
+        ) : (
+          <></>
+        )}
+        <div className="chatscreen-typing">
+          <span className="chatscreen-typing-dots"></span>
+          <span className="chatscreen-typing-dots"></span>
+          <span className="chatscreen-typing-dots"></span>
+        </div>
+        {botTyping ? (
+          <></>
+        ) : (
+          <span className="chatscreen-typing-icon">
+            <img src={UserIcon} />
+          </span>
+        )}
       </div>
       <div className="chatscreen-footer">
         <form onSubmit={handleSubmit}>
@@ -210,6 +375,7 @@ const Home = () => {
               style={{
                 width: "90%",
               }}
+              onFocus={(e) => setUserTyping(true)}
             />
           </div>
           <div className="chatscreen-footer-btn">
