@@ -163,14 +163,14 @@ const Home = () => {
         if (response) {
           const temp = response[0];
           const recipient_id = temp["recipient_id"];
-          const recipient_msg = temp["text"];
-
+          const recipient_msg = JSON.parse(temp["text"]);
+          console.log(recipient_msg)
           const response_temp = {
             sender: "bot",
             recipient_id: recipient_id,
-            msg: recipient_msg,
-            actions: [],
-            links: [],
+            msg: recipient_msg["msg"],
+            actions: recipient_msg["pr"] ? recipient_msg["pr"] : [],
+            links: recipient_msg["links"] ? recipient_msg["links"] : [],
           };
           setBotTyping(false);
           setUserTyping(false);
@@ -250,7 +250,6 @@ const Home = () => {
       </div>
       <div className="chatscreen-content" ref={chatScreenContent}>
         {chat.map((chatContent, index) => {
-          console.log(chatContent);
           return (
             <div
               key={index}

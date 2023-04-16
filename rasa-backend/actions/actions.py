@@ -27,6 +27,7 @@
 #         return []
 
 import datetime as dt
+import json
 from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker
@@ -69,28 +70,31 @@ class ActionPRList(Action):
         prlists = prlist()
         prlists = prlists[:10]
         # dispatcher.utter_template("utter_givepr",tracker,temp=prlists)
-        message = f"The list of PR's are: {prlists}. Choose a PR Number to display its items"
-        dispatcher.utter_message(text=message)
+        # message = f"The list of PR's are: {prlists}. Choose a PR Number to display its items"
+        send = {"pr":prlists,"msg":"The PR lists are given below. Choose Any one to see PR Items"}
+        my_json = json.dumps(send)
+        dispatcher.utter_message(text=my_json)
+        # dispatcher.utter_message(text=prlists)
         # dispatcher.utter_message(text=f"Your pr number is {pr_num}!")
 
         return []
     
-class ActionPRNumber(Action):
+# class ActionPRNumber(Action):
 
-    def name(self) -> Text:
-        return "action_pr_number"
+#     def name(self) -> Text:
+#         return "action_pr_number"
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        prlists = prlist()
-        prlists = prlists[:10]
-        # dispatcher.utter_template("utter_givepr",tracker,temp=prlists)
-        message = f"The list of PR's are: {prlists}. Choose a PR Number to display its items"
-        dispatcher.utter_message(text=message)
-        # dispatcher.utter_message(text=f"Your pr number is {pr_num}!")
+#     def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#         prlists = prlist()
+#         prlists = prlists[:10]
+#         # dispatcher.utter_template("utter_givepr",tracker,temp=prlists)
+#         message = f"The list of PR's are: {prlists}. Choose a PR Number to display its items"
+#         dispatcher.utter_message(text=message)
+#         # dispatcher.utter_message(text=f"Your pr number is {pr_num}!")
 
-        return []
+#         return []
 
 
 class ActionPRitems(Action):
@@ -108,8 +112,12 @@ class ActionPRitems(Action):
         pritemslist = pritems(prno)
         pritemslist = pritemslist[:10]
         # dispatcher.utter_template("utter_givepr",tracker,temp=prlists)
-        message = f"The list of PR's items are: {pritemslist}. Choose Any one to see the description.."
-        dispatcher.utter_message(text=message)
+        # message = f"The list of PR's items are: {pritemslist}. Choose Any one to see the description.."
+        # dispatcher.utter_message(text=message)
+
+        send = {"pr":pritemslist,"msg":"The PR items lists are given below. Choose Any one to see the Item description"}
+        my_json = json.dumps(send)
+        dispatcher.utter_message(text=my_json)
 
         return [SlotSet('other_slot', prno)]
 
@@ -204,20 +212,26 @@ class ActionPRitemDesc(Action):
             Pstatus = 'RFQ sent to external system for sourcing'
 
         new_line = '\n'
-        message = f"""Here is the Details of Purchase Requisition... {new_line}
-        Purchase Requisition Number : {PRnumber} {new_line}
-        Purchase Requisition Item Number : {PRItemNumber} {new_line}
-        Purchase_Requisition_Release_Status : {PRItemStatus} - {status} {new_line}
-        Purchase Requisition Item Text : {PRItemText} {new_line}
-        Purchase_Requisition_Material_Group : {PRMaterialGroup} {new_line}
-        Requested_Quantity : {PRQuantity} {new_line}
-        Base_Unit : {PRBaseUnit} {new_line}
-        Purchase_Requisition_Price : {PRPrice} {new_line}
-        Plant : {PRPlant} {new_line}
-        Company_Code : {PRCompanyCode} {new_line}
-        Processing_Status : {PRProcessingStatus} - {Pstatus} {new_line}
-        Creation_Date : {PRCreationDate} {new_line}
-        Delivery_Date : {PRDeliveryDate}"""
-        dispatcher.utter_message(text=message)
+        details = {
+        "Purchase Requisition Number" : PRnumber,
+        "Purchase Requisition Item Number" : PRItemNumber,
+        "Purchase_Requisition_Release_Status" : f"{ PRItemStatus} - {status}",
+        "Purchase Requisition Item Text" : PRItemText,
+        "Purchase_Requisition_Material_Group" : PRMaterialGroup,
+        "Requested_Quantity" : PRQuantity,
+        "Base_Unit" : PRBaseUnit,
+        "Purchase_Requisition_Price" : PRPrice,
+        "Plant" : PRPlant,
+        "Company_Code" : PRCompanyCode,
+        "Processing_Status" : f"{PRProcessingStatus} - {Pstatus}",
+        "Creation_Date" : PRCreationDate,
+        "Delivery_Date" : PRDeliveryDate,
+        }
+        # dispatcher.utter_message(text=message)
+        send = {"msg":"Here is the Details of Purchase Requisition... ","details":details}
+        my_json = json.dumps(send)
+        dispatcher.utter_message(text=my_json)
+
+
         clear_global_variable()
         return []

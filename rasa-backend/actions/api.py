@@ -22,7 +22,7 @@ def prlist():
     values = js_obj['feed']['entry']
     prnumber=[]
     for i in values:
-        prnumber.append(i['content']['m:properties']['d:PurchaseRequisition'])
+        prnumber.append(f"PR {i['content']['m:properties']['d:PurchaseRequisition']}")
     return prnumber
 
 def pritems(prno):
@@ -40,7 +40,7 @@ def pritems(prno):
     i=0
     while True:
         try:
-            itemlist.append(flatjs[f'entry_link_1_m:inline_feed_entry_{i}_content_m:properties_d:PurchaseRequisitionItem'])
+            itemlist.append(f"PR Item {flatjs[f'entry_link_1_m:inline_feed_entry_{i}_content_m:properties_d:PurchaseRequisitionItem']}")
             i+=1
         except:
             break

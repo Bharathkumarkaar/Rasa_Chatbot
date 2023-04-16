@@ -140,8 +140,8 @@ nlu:
 
 - intent: pritems
   examples: |
-    - PR item is [1098](pr_itemnumber)
-    - pr item is [220](pr_itemnumber)
+    - PR item [1098](pr_itemnumber)
+    - pr item [220](pr_itemnumber)
     - PR item no [1098](pr_itemnumber)
     - pr item no [220](pr_itemnumber)
     - PR item description for [220](pr_itemnumber)
