@@ -2,7 +2,7 @@ import requests
 import xmltodict, json
 from flatten_json import flatten
 
-url = 'http://172.26.0.121:8002/sap/opu/odata/sap/API_PURCHASEREQ_PROCESS_SRV/A_PurchaseRequisitionHeader'
+url = 'http://61.16.128.69:8002/sap/opu/odata/sap/API_PURCHASEREQ_PROCESS_SRV/A_PurchaseRequisitionHeader'
 username = 'K1277'
 password = 'Kaar@1234'
 # Create a session and set the authorization header
@@ -10,7 +10,7 @@ session = requests.Session()
 session.auth = (username, password)
 
 def prlist():
-    api_address='http://172.26.0.121:8002/sap/opu/odata/sap/API_PURCHASEREQ_PROCESS_SRV/A_PurchaseRequisitionHeader'
+    api_address='http://61.16.128.69:8002/sap/opu/odata/sap/API_PURCHASEREQ_PROCESS_SRV/A_PurchaseRequisitionHeader'
     # city = input('Enter the City Name :')
     url = api_address
     xml_data = session.get(url)
@@ -26,7 +26,7 @@ def prlist():
     return prnumber
 
 def pritems(prno):
-    api_address=f'http://172.26.0.121:8002/sap/opu/odata/sap/API_PURCHASEREQ_PROCESS_SRV/A_PurchaseRequisitionHeader(\'{prno}\')?$expand=to_PurchaseReqnItem'
+    api_address=f'http://61.16.128.69:8002/sap/opu/odata/sap/API_PURCHASEREQ_PROCESS_SRV/A_PurchaseRequisitionHeader(\'{prno}\')?$expand=to_PurchaseReqnItem'
     url = api_address
     response = session.get(url)
 # Print the response status code and content
@@ -48,7 +48,7 @@ def pritems(prno):
 
 def pritemdetails(prno,pritemno):
     print(prno,pritemno)
-    api_address=f'http://172.26.0.121:8002/sap/opu/odata/sap/API_PURCHASEREQ_PROCESS_SRV/A_PurchaseRequisitionItem(PurchaseRequisition=\'{prno}\',PurchaseRequisitionItem=\'{pritemno}\')'
+    api_address=f'http://61.16.128.69:8002/sap/opu/odata/sap/API_PURCHASEREQ_PROCESS_SRV/A_PurchaseRequisitionItem(PurchaseRequisition=\'{prno}\',PurchaseRequisitionItem=\'{pritemno}\')'
     url = api_address
     response = session.get(url)
 # Print the response status code and content
