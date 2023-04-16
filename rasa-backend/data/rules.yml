@@ -27,6 +27,11 @@ rules:
   - intent: pritems
   - action: action_pr_item_desc
 
+- rule: Give Company Policies when user asks for it
+  steps:
+  - intent: policies
+  - action: action_company_policy
+
 # - rule: Give list of PR item description when user asks for it
 #   steps:
 #   - intent: pritemdesc

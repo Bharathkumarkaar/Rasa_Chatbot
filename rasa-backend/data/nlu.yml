@@ -153,6 +153,20 @@ nlu:
     - Purchase Requisition items desc for [220](pr_itemnumber)
     - purchase requisition items desc for [220](pr_itemnumber)
 
+- intent: policies
+  examples: |
+    - Show me the Policies
+    - Policies
+    - Policy
+    - Company Policies
+    - Company Policy
+    - company policy
+    - policy
+    - Show me the Company Policies
+    - Could you share the Company Policies
+    - May I see the Policies
+
+
 # - intent: pritemdesc
 #   examples: |
 #     - list of PR items desc

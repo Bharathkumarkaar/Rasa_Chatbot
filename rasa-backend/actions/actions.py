@@ -58,6 +58,33 @@ class ActionHelloWorld(Action):
 
         return []
 
+class ActionCompanyPolicy(Action):
+
+    def name(self) -> Text:
+        return "action_company_policy"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        policies = [
+            {"link": "https://kaartechit-my.sharepoint.com/:b:/g/personal/damudhesh_kaartech_com/EakotOTzBSJJk14tvlv0qysBGRVUWtgbAphYAyGCMhEwlw",
+            "tag": "Corporate attire policy"},
+            {"link": "https://kaartechit-my.sharepoint.com/:b:/g/personal/damudhesh_kaartech_com/EXenNdcSxplEs0795wun3xwB9vIVq6AOfYxYA7lu7LkYkQ",
+            "tag": "Over-time policy"},
+            {"link": "https://kaartechit-my.sharepoint.com/:b:/g/personal/damudhesh_kaartech_com/EW6IxmSseApHprv0YfmaBFIBjtjXSZGd1d_0Hj-LiAj5jA?e=DDrHdl",
+            "tag": "Probation policy"},
+            {"link": "https://kaartechit-my.sharepoint.com/:b:/g/personal/damudhesh_kaartech_com/EQs4RqFLVplFlyL05_B0wZwBWzOt64LG5G-VtpREz_pJTw",
+            "tag": "Leave policy"},
+            {"link": "https://kaartechit-my.sharepoint.com/:b:/g/personal/damudhesh_kaartech_com/ERhC79Ge2jJLqPMUcwdR1qsBCs2ujgBfpY5ticfA-FCtug",
+            "tag": "Travel policy"},
+        ]
+
+        send = {"links":policies,"msg":"The Company Policies are.."}
+        my_json = json.dumps(send)
+        dispatcher.utter_message(text=my_json)
+
+        return []
 
 class ActionPRList(Action):
 
